@@ -2,8 +2,12 @@ import { useForm } from "react-hook-form";
 import { loginSchema, LoginSchema } from "../../schemaValidations/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuthStore } from "../../stores/authStore";
 
 export const LogInPage = () => {
+  const { login }: any = useAuthStore();
+
   const {
     register,
     handleSubmit,
@@ -17,7 +21,7 @@ export const LogInPage = () => {
   });
 
   const onSubmit = (data: LoginSchema) => {
-    console.log(data);
+    login(data);
   };
 
   return (
@@ -105,12 +109,12 @@ export const LogInPage = () => {
           <div className="mx-auto max-w-xs">
             <p className="mt-6 text-xs text-gray-600 text-center">
               Don't have an account?{" "}
-              <a
-                href="/register"
-                className="border-b border-gray-500 border-dotted text-[#6d68e8] font-bold"
+              <Link
+                to="/register"
+                className="hover:border-b hover:opacity-80 border-[#6d68e8]/80 text-[#6d68e8] font-bold"
               >
                 Register now
-              </a>
+              </Link>
             </p>
           </div>
         </div>
