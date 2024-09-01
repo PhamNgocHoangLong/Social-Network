@@ -5,6 +5,7 @@ import {
 } from "../../schemaValidations/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const RegisterPage = () => {
   const {
@@ -110,21 +111,14 @@ export const RegisterPage = () => {
             </button>
           </div>
           <div className="mx-auto max-w-xs">
-            <p className="mt-6 text-xs text-gray-600 text-center">
-              I agree to abide by templatana's{" "}
-              <a
-                href="#"
-                className="border-b border-gray-500 border-dotted text-[#6d68e8]"
+            <p className="mt-6 text-sm text-gray-600 text-center">
+              Are you already a member?{" "}
+              <Link
+                to="/login"
+                className="hover:border-b hover:opacity-80 border-[#6d68e8]/80 text-[#6d68e8] font-bold"
               >
-                Terms of Service{" "}
-              </a>
-              and its{" "}
-              <a
-                href="#"
-                className="border-b border-gray-500 border-dotted text-[#6d68e8]"
-              >
-                Privacy Policy
-              </a>
+                Login here
+              </Link>
             </p>
           </div>
         </div>
