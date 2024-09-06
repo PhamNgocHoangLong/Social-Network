@@ -1,6 +1,7 @@
 import { Collection, Db, MongoClient } from 'mongodb'
+import { RefreshToken } from '~/models/schemas/refreshToken.schema'
+import { User } from '~/models/schemas/User.schema'
 import { envConfig } from '~/utils/config'
-import { User } from '~/models/schemas/user.schema'
 
 const uri = `mongodb+srv://${envConfig.mongodbUsername}:${envConfig.mongodbPassword}@${envConfig.mongodbName}.l22nh.mongodb.net/?retryWrites=true&w=majority&appName=${envConfig.mongodbName}`
 
@@ -25,6 +26,11 @@ class DataBaseService {
   get users(): Collection<User> {
     return this.db.collection(envConfig.mongodbUsersCollection)
   }
+
+  get refresh_tokens(): Collection<RefreshToken> {
+    return this.db.collection(envConfig.mongodbRefreshTokenCollection)
+  }
+
 }
 
 const database = new DataBaseService()
