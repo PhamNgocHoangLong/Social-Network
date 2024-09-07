@@ -1,8 +1,21 @@
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../stores/authStore";
+import { useEffect } from "react";
+
 interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
 export const AuthLayout = ({ children }: AuthLayoutProps) => {
+  // const navigate = useNavigate();
+  // const { isAuthenticated } = useAuthStore();
+
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     return navigate("/");
+  //   }
+  // }, []);
+
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">

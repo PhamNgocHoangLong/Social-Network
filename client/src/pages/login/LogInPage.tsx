@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuthStore } from "../../stores/authStore";
 
 export const LogInPage = () => {
-  const { login }: any = useAuthStore();
+  const { login, isLogging }: any = useAuthStore();
 
   const {
     register,
@@ -20,8 +20,9 @@ export const LogInPage = () => {
     },
   });
 
-  const onSubmit = (data: LoginSchema) => {
-    login(data);
+  const onSubmit = async (data: LoginSchema) => {
+    console.log(data);
+    await login(data);
   };
 
   return (
@@ -101,7 +102,12 @@ export const LogInPage = () => {
             {errors.password && (
               <p className="text-red-500">{errors.password.message}</p>
             )}
-            <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+            <button
+              disabled={isLogging}
+              className={`${
+                isLogging ? "cursor-not-allowed" : ""
+              } mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}
+            >
               <User className="w-6 h-6 -ml-2" />
               <span className="ml-3">Log In</span>
             </button>
