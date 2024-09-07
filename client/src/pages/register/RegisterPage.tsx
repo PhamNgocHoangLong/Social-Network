@@ -6,6 +6,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus } from "lucide-react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useAuthStore } from "../../stores/authStore";
 
 export const RegisterPage = () => {
   const {
@@ -16,13 +18,21 @@ export const RegisterPage = () => {
     resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
+      username: "",
+      name: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  const onSubmit = (data: RegisterSchema) => {
-    console.log(data);
+  const { isRegistering, registerAuth } = useAuthStore();
+
+  const onSubmit = async (data: RegisterSchema) => {
+    if (data.password !== data.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    await registerAuth(data);
   };
   return (
     <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
@@ -38,6 +48,24 @@ export const RegisterPage = () => {
           >
             <input
               className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+              {...register("username")}
+              type="text"
+              placeholder="Username"
+            />
+            {errors.username && (
+              <p className="text-red-500">{errors.username.message}</p>
+            )}
+            <input
+              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+              {...register("name")}
+              type="text"
+              placeholder="Your name"
+            />
+            {errors.name && (
+              <p className="text-red-500">{errors.name.message}</p>
+            )}
+            <input
+              className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
               {...register("email")}
               type="email"
               placeholder="Email"
@@ -63,7 +91,12 @@ export const RegisterPage = () => {
             {errors.confirmPassword && (
               <p className="text-red-500">{errors.confirmPassword.message}</p>
             )}
-            <button className="mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+            <button
+              disabled={isRegistering}
+              className={`${
+                isRegistering ? "cursor-not-allowed" : ""
+              } mt-5 tracking-wide font-semibold bg-indigo-500 text-gray-100 w-full py-4 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none`}
+            >
               <UserPlus className="w-6 h-6 -ml-2" />
               <span className="ml-3">Register</span>
             </button>

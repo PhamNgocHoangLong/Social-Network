@@ -3,39 +3,44 @@ import { LogInPage } from "./pages/login/LogInPage";
 import { HomePage } from "./pages/home/HomePage";
 import { RegisterPage } from "./pages/register/RegisterPage";
 import { AuthLayout } from "./layouts/authLayout/AuthLayout";
-import { useAuthStore } from "./stores/authStore";
 import { Toaster } from "react-hot-toast";
+import { PrivateLayout } from "./layouts/privateLayout/PrivateLayout";
+import { useAuthStore } from "./stores/authStore";
 
 export default function App() {
-  const { user }: any = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   return (
     <>
       <Routes>
         <Route
           path="/"
-          element={user ? <HomePage /> : <Navigate to="/login" />}
+          element={
+            <PrivateLayout>
+              <HomePage />
+            </PrivateLayout>
+          }
         />
         <Route
           path="/login"
           element={
-            user ? (
-              <Navigate to="/" />
-            ) : (
+            !isAuthenticated ? (
               <AuthLayout>
                 <LogInPage />
               </AuthLayout>
+            ) : (
+              <Navigate to={"/"} />
             )
           }
         />
         <Route
           path="/register"
           element={
-            user ? (
-              <Navigate to="/" />
-            ) : (
+            !isAuthenticated ? (
               <AuthLayout>
                 <RegisterPage />
               </AuthLayout>
+            ) : (
+              <Navigate to={"/"} />
             )
           }
         />
