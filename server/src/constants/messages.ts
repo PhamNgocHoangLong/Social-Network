@@ -73,3 +73,16 @@ export const USER_MESSAGES = {
   UPLOAD_VIDEO_SUCCESSFULLY: 'Upload video successfully',
   GET_SUGGESTS_SUCCESSFULLY: 'Get suggests successfully'
 } as const
+
+export const POST_MESSAGES = {
+  CAPTIONS_MUST_BE_A_STRING: 'Captions must be a string',
+  HASHTAGS_MUST_BE_AN_ARRAY_OF_STRING: 'Hashtags must be an array of string',
+  MENTIONS_MUST_BE_AN_ARRAY_OF_USER_ID: 'Mentions must be an array of user id',
+  MEDIAS_MUST_BE_AN_ARRAY_OF_MEDIA_OBJECT: 'Medias must be an array of media object',
+  CREATE_POST_SUCCESSFULLY: 'Create post successfully',
+  GET_NEW_FEEDS_SUCCESSFULLY: 'Get new feeds successfully',
+  INVALID_POST_ID: 'Invalid post id',
+  POST_NOT_FOUND: 'Post not found',
+  POST_ID_REQUIRED: 'Post id required',
+  GET_POSTS_SUCCESSFULLY: 'Get posts successfully'
+} as const
