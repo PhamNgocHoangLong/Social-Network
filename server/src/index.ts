@@ -4,6 +4,7 @@ import { envConfig } from './utils/config'
 import { defaultErrorHandler } from './middlewares/error.middleware'
 import database from './services/database.services'
 import authRouter from './routes/auth.routes'
+import postRouter from './routes/post.routes'
 
 const app = express()
 const PORT = envConfig.port
@@ -12,6 +13,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/auth', authRouter)
+app.use('/posts', postRouter)
 
 app.use(defaultErrorHandler)
 
