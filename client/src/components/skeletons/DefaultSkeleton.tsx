@@ -13,28 +13,77 @@ export function DefaultSkeleton() {
       <Typography
         as="div"
         variant="paragraph"
-        className="mb-2 h-2 w-72 rounded-full bg-gray-300"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
       >
         &nbsp;
       </Typography>
       <Typography
         as="div"
         variant="paragraph"
-        className="mb-2 h-2 w-72 rounded-full bg-gray-300"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
       >
         &nbsp;
       </Typography>
       <Typography
         as="div"
         variant="paragraph"
-        className="mb-2 h-2 w-72 rounded-full bg-gray-300"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
       >
         &nbsp;
       </Typography>
       <Typography
         as="div"
         variant="paragraph"
-        className="mb-2 h-2 w-72 rounded-full bg-gray-300"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
+      >
+        &nbsp;
+      </Typography>
+      <Typography
+        as="div"
+        variant="paragraph"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
+      >
+        &nbsp;
+      </Typography>
+      <Typography
+        as="div"
+        variant="paragraph"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
+      >
+        &nbsp;
+      </Typography>
+      <Typography
+        as="div"
+        variant="paragraph"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
+      >
+        &nbsp;
+      </Typography>
+      <Typography
+        as="div"
+        variant="paragraph"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
+      >
+        &nbsp;
+      </Typography>
+      <Typography
+        as="div"
+        variant="paragraph"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
+      >
+        &nbsp;
+      </Typography>
+      <Typography
+        as="div"
+        variant="paragraph"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
+      >
+        &nbsp;
+      </Typography>
+      <Typography
+        as="div"
+        variant="paragraph"
+        className="mb-2 h-2 w-full rounded-full bg-gray-300"
       >
         &nbsp;
       </Typography>

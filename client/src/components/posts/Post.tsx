@@ -1,7 +1,6 @@
 import { Avatar, Badge, Button, Input } from "@material-tailwind/react";
 import { PostType } from "../../types/post.type";
 import { usePostStore } from "../../stores/postStore";
-import { DefaultSkeleton } from "../skeletons/DefaultSkeleton";
 import { formatDistanceToNow } from "date-fns";
 import {
   Bookmark,
@@ -12,19 +11,20 @@ import {
   SendHorizonal,
   Smile,
 } from "lucide-react";
+import { DefaultSkeleton } from "../skeletons/DefaultSkeleton";
 
 interface PostProps {
   posts: PostType[];
 }
 
 export const Post = ({ posts }: PostProps) => {
-  const { creatingPost, fetchingPosts } = usePostStore();
+  const { creatingPost } = usePostStore();
 
-  if (creatingPost || fetchingPosts) return <DefaultSkeleton />;
   return (
     <>
-      {posts?.map((post) => (
-        <div key={post._id} className="my-8 md:mx-8">
+      {creatingPost && <DefaultSkeleton />}
+      {posts?.map((post, index) => (
+        <div key={index} className="my-8 md:mx-8">
           <div className="py-4 px-6 border-2 rounded-lg shadow-sm">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-2">
@@ -47,7 +47,8 @@ export const Post = ({ posts }: PostProps) => {
                       {post.user?.name}
                     </h4>
                     <p className="text-sm text-gray-400">
-                      {formatDistanceToNow(new Date(post.created_at))}
+                      {post.created_at &&
+                        formatDistanceToNow(new Date(post?.created_at))}
                     </p>
                   </div>
                   <div>
@@ -62,14 +63,21 @@ export const Post = ({ posts }: PostProps) => {
               </div>
             </div>
             <p className="text-black font-medium text-sm mt-3">
-              {post.captions}
+              {post.captions?.split("\n").map((text, index) => (
+                <span key={index}>
+                  {text}
+                  <br />
+                </span>
+              ))}
             </p>
             <div className="my-4">
-              <img
-                className="h-64 w-full rounded-lg object-cover object-center"
-                src="https://images.unsplash.com/photo-1682407186023-12c70a4a35e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
-                alt="nature image"
-              />
+              {post.medias?.length === 1 && (
+                <img
+                  className="h-64 w-full rounded-lg object-cover object-center"
+                  src={post.medias[0]?.url}
+                  alt="nature image"
+                />
+              )}
             </div>
             <div className="py-2 border-y-2 flex justify-between items-center px-4">
               <div className="flex items-center gap-4">

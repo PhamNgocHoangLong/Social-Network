@@ -19,12 +19,12 @@ export type PostType = {
   likes: any[];
 };
 
-type MediaType = {
+export type MediaType = {
   url: string;
   type: Media;
 };
 
-enum Media {
+export enum Media {
   Image,
   Video,
 }

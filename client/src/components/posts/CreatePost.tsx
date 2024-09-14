@@ -3,6 +3,7 @@ import { Hash, ImagePlay, Images, Logs } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { usePostStore } from "../../stores/postStore";
 import { useAuthStore } from "../../stores/authStore";
+import axios from "axios";
 
 interface CreatePostProps {
   isOpen: boolean;
@@ -28,12 +29,38 @@ export const CreatePost: React.FC<CreatePostProps> = ({
   const { accessToken } = useAuthStore();
 
   const handleCreatePost = async () => {
+    const formData = new FormData();
+    formData.append("image", file as Blob);
+    const res = await axios.post(
+      "http://localhost:4000/medias/upload-image",
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
     await createPost(accessToken, {
       captions: value,
-      medias: [{ url: "hello.com", type: 1 }],
+      medias: res.data.result,
     });
 
     await fetchPosts(accessToken);
+  };
+
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      setFile(file);
+    }
+  };
+
+  const handleFileUploadClick = () => {
+    document.getElementById("fileInput")?.click();
   };
 
   return (
@@ -55,13 +82,29 @@ export const CreatePost: React.FC<CreatePostProps> = ({
               <h3 className="text-base font-semibold">username</h3>
               <textarea
                 rows={1}
-                className="w-full focus:outline-none resize-none"
+                className="flex-1 focus:outline-none resize-none"
                 placeholder="Bắt đầu nào..."
                 onChange={(e) => setValue(e.target.value)}
                 ref={textAreaRef}
               ></textarea>
+              {file && (
+                <img
+                  className="h-48 mx-4 my-2 rounded-lg border border-gray-400 shadow-md object-cover object-center"
+                  src={URL.createObjectURL(file)}
+                  alt="nature image"
+                />
+              )}
               <div className="flex items-center gap-4">
-                <div className="p-1 rounded-full transition delay-150 ease-in-out hover:bg-gray-300">
+                <div
+                  className="p-1 rounded-full transition delay-150 ease-in-out hover:bg-gray-300"
+                  onClick={handleFileUploadClick}
+                >
+                  <input
+                    type="file"
+                    id="fileInput"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
                   <Images className="size-5 cursor-pointer text-gray-500" />
                 </div>
                 <div className="p-1 rounded-full transition delay-150 ease-in-out hover:bg-gray-300">
