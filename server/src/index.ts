@@ -8,6 +8,7 @@ import postRouter from './routes/post.routes'
 import { initFolder } from './utils/files'
 import { UPLOAD_IMAGE_TEMP_DIR } from './constants/dir'
 import mediaRouter from './routes/media.routes'
+import userRouter from './routes/user.routes'
 
 const app = express()
 const PORT = envConfig.port
@@ -18,6 +19,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use('/auth', authRouter)
+app.use('/users', userRouter)
 app.use('/posts', postRouter)
 app.use('/medias', mediaRouter)
 
