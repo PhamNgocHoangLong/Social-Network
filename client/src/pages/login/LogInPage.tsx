@@ -21,7 +21,6 @@ export const LogInPage = () => {
   });
 
   const onSubmit = async (data: LoginSchema) => {
-    console.log(data);
     await login(data);
   };
 
