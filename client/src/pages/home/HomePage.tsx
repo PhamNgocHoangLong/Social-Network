@@ -1,17 +1,30 @@
-import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../stores/authStore";
+import { Post } from "../../components/posts/Post";
+import { HeaderPost } from "../../components/posts/HeaderPost";
+import { useEffect, useState } from "react";
+import { PostType } from "../../types/post.type";
+import { usePostStore } from "../../stores/postStore";
+import { DefaultSkeleton } from "../../components/skeletons/DefaultSkeleton";
 
 export const HomePage = () => {
-  const { logout, accessToken, refreshToken } = useAuthStore();
-  const navigate = useNavigate();
+  const { accessToken } = useAuthStore();
+  const { fetchPosts, fetchingPosts, posts } = usePostStore();
 
-  const handleLogout = async () => {
-    await logout(refreshToken, accessToken);
-    navigate("/login");
-  };
+  const [listPost, setListPost] = useState<PostType[]>([]);
+
+  useEffect(() => {
+    fetchPosts(accessToken);
+  }, []);
+
+  useEffect(() => {
+    setListPost(posts);
+  }, [posts]);
+
   return (
-    <div>
-      <button onClick={handleLogout}>Logout</button>
+    <div className="max-w-2xl mx-8 md:mx-auto">
+      <HeaderPost />
+      {fetchingPosts && <DefaultSkeleton />}
+      <Post posts={listPost} />
     </div>
   );
 };
