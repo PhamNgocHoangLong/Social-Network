@@ -3,6 +3,8 @@ import database from './database.services'
 import { Follower } from '~/models/schemas/follower.schema'
 import { USER_MESSAGES } from '~/constants/messages'
 import { User } from '~/models/schemas/User.schema'
+import { ErrorWithStatus } from '~/models/errors'
+import { HTTP_STATUS_CODE } from '~/constants/httpStatusCode'
 
 class UserServices {
   async follow(user_id: string, followed_user_id: string) {
@@ -99,6 +101,31 @@ class UserServices {
         }
       ])
       .toArray()
+    return user
+  }
+
+  async getUserProfile(username: string) {
+    const user = await database.users.findOne(
+      { username },
+      {
+        projection: {
+          password: false,
+          email_verify_token: false,
+          forgot_password_token: false,
+          verify: false,
+          created_at: false,
+          updated_at: false
+        }
+      }
+    )
+
+    if (!user) {
+      throw new ErrorWithStatus({
+        message: USER_MESSAGES.USER_NOT_FOUND,
+        status: HTTP_STATUS_CODE.NOT_FOUND
+      })
+    }
+
     return user
   }
 }

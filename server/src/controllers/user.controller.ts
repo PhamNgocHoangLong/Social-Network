@@ -1,6 +1,6 @@
 import { ParamsDictionary } from 'express-serve-static-core'
 import { NextFunction, Request, Response } from 'express'
-import { FollowBodyReq, UnLikeReqParams } from '~/models/requests/user.request'
+import { FollowBodyReq, UnLikeReqParams, UserProfileParams } from '~/models/requests/user.request'
 import userServices from '~/services/user.services'
 import { HTTP_STATUS_CODE } from '~/constants/httpStatusCode'
 import { USER_MESSAGES } from '~/constants/messages'
@@ -45,6 +45,17 @@ export const getSuggestsController = async (req: Request, res: Response, next: N
 
   return res.status(HTTP_STATUS_CODE.OK).json({
     message: USER_MESSAGES.GET_SUGGESTS_SUCCESSFULLY,
+    result
+  })
+}
+
+export const getUserProfileController = async (req: Request<UserProfileParams>, res: Response) => {
+  const { username } = req.params
+
+  const result = await userServices.getUserProfile(username)
+
+  res.status(HTTP_STATUS_CODE.OK).json({
+    message: USER_MESSAGES.GET_PROFILE_SUCCESS,
     result
   })
 }

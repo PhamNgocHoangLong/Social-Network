@@ -4,3 +4,6 @@ export interface FollowBodyReq {
 }
 
 export interface UnLikeReqParams extends ParamsDictionary, FollowBodyReq {}
+export interface UserProfileParams {
+  username: string
+}

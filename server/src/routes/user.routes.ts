@@ -3,6 +3,7 @@ import {
   followerController,
   getMeController,
   getSuggestsController,
+  getUserProfileController,
   unFollowerController
 } from '~/controllers/user.controller'
 import { accessTokenValidator } from '~/middlewares/auth.middleware'
@@ -20,5 +21,6 @@ userRouter.delete(
 )
 userRouter.get('/me', accessTokenValidator, wrapHandleRequest(getMeController))
 userRouter.get('/suggests', accessTokenValidator, wrapHandleRequest(getSuggestsController))
+userRouter.get('/:username', wrapHandleRequest(getUserProfileController))
 
 export default userRouter
