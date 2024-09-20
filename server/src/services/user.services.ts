@@ -105,19 +105,70 @@ class UserServices {
   }
 
   async getUserProfile(username: string) {
-    const user = await database.users.findOne(
-      { username },
-      {
-        projection: {
-          password: false,
-          email_verify_token: false,
-          forgot_password_token: false,
-          verify: false,
-          created_at: false,
-          updated_at: false
+    const user = await database.users
+      .aggregate<User & { followers: User[] }>([
+        {
+          $match: {
+            username: username
+          }
+        },
+        {
+          $lookup: {
+            from: 'followers',
+            localField: '_id',
+            foreignField: 'followed_user_id',
+            as: 'followers'
+          }
+        },
+        {
+          $unwind: '$followers'
+        },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'followers.user_id',
+            foreignField: '_id',
+            as: 'followers'
+          }
+        },
+        {
+          $unwind: {
+            path: '$followers'
+          }
+        },
+        {
+          $project: {
+            password: 0,
+            forgot_password_token: 0,
+            'followers.password': 0,
+            'followers.forgot_password_token': 0
+          }
+        },
+        {
+          $group: {
+            _id: '$_id',
+            root: {
+              $mergeObjects: '$$ROOT'
+            },
+            followers: {
+              $push: '$followers'
+            }
+          }
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: [
+                '$root',
+                {
+                  followers: '$followers'
+                }
+              ]
+            }
+          }
         }
-      }
-    )
+      ])
+      .toArray()
 
     if (!user) {
       throw new ErrorWithStatus({
