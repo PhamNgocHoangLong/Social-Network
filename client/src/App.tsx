@@ -6,6 +6,8 @@ import { AuthLayout } from "./layouts/authLayout/AuthLayout";
 import { Toaster } from "react-hot-toast";
 import { PrivateLayout } from "./layouts/privateLayout/PrivateLayout";
 import { useAuthStore } from "./stores/authStore";
+import { Profiler } from "react";
+import { ProfilePage } from "./pages/profile/ProfilePage";
 
 export default function App() {
   const { isAuthenticated } = useAuthStore();
@@ -44,6 +46,11 @@ export default function App() {
             )
           }
         />
+        <Route path="/profile-page" element={
+          <PrivateLayout>
+          <ProfilePage />
+        </PrivateLayout>
+        }/>
       </Routes>
       <Toaster />
     </>
